@@ -1,0 +1,168 @@
+Q1. Create table Patients by having their details like name, age, gender etc-
+Ans. create table Patients(p_id int primary key auto_increment, name varchar(255), age int, gender varchar(1), city varchar(255), date_of_admission date, status varchar(10), d_id int, foreign key (d_id) references Doctor(d_id));
+
+
+Q2. Create table Doctor by having their details like name, age, gender etc-
+Ans. create table Doctor(d_id int primary key auto_increment, name varchar(255), age int, gender varchar(1), city varchar(255), specialization varchar(255), years_of_experience int, salary decimal(10,2)); 
+
+
+Q3. Alter column "Specialization" to "Subject"
+Ans. alter table Doctor rename column specialization = "subject";
+
+insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values
+	("Doctor0", 45, "M", "Pune", "Ped", 4, 100000.00),
+	("Doctor1", 45, "M", "Pune", "Ped", 4, 100000.00),
+	("Doctor2", 40, "M", "Pune", "Ped", 5, 40000.00),
+	("Doctor3", 45, "M", "Pune", "Ort", 10, 400000.00),
+	("Doctor4", 46, "M", "Pune", "Neu", 8, 100000.00),
+	("Doctor5", 48, "M", "Pune", "Ped", 4, 1000.00),
+	("Doctor6", 35, "M", "Pune", "Gyn", 4, 780000.00),
+	("Doctor7", 55, "M", "Pune", "Ped", 4, 890000.00)
+
+mysql> select * from Doctor;
++------+---------+------+--------+------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city | specialization | years_of_experience | salary    |
++------+---------+------+--------+------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune | Ped            |                   4 | 890000.00 |
++------+---------+------+--------+------+----------------+---------------------+-----------+
+
+
+insert into Patients(name, age, gender, city, date_of_admission, status) values
+	("Patient0", 45, "M", "Pune", "2020-3-23", "discharged"),
+	("Patient1", 45, "M", "Pune", "2021-3-23", "discharged"),
+	("Patient2", 40, "M", "Pune", "2020-3-13", "discharged"),
+	("Patient3", 45, "M", "Mumbai", "2020-3-2", "admitted"),
+	("Patient4", 46, "M", "Pune", "2020-3-3", "discharged"),
+	("Patient5", 48, "M", "Pune", "2002-5-23", "discharged"),
+	("Patient6", 35, "M", "Mumbai", "2020-5-23", "admitted"),
+	("Patient7", 55, "M", "Pune", "2020-6-23", "discharged")
+
+
+Q4. Create backup table for both the tables-
+Ans. mysql> create table bkup_Patient select * from Patients;
+Query OK, 8 rows affected (0.05 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> create table bkup_Doctor select * from Doctor;
+Query OK, 9 rows affected (0.06 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> select * from bkup_Patient;
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from bkup_Doctor;
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city      | specialization | years_of_experience | salary    |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune      | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune      | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune      | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune      | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune      | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune      | Ped            |                   4 | 890000.00 |
+|    9 | Arun    |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+9 rows in set (0.00 sec)
+
+
+Q5. Find patients from Pune and Mumbai-
+Ans. mysql> select * from Patients where city = "Pune" or city = "Mumbai";
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+
+Q6. Find all doctors from "Ahmedabad" whose name starts with "A"-
+Ans. mysql> select * from Doctor where name like "A%" and city = "Ahmedabad";
++------+------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name | age  | gender | city      | specialization | years_of_experience | salary    |
++------+------+------+--------+-----------+----------------+---------------------+-----------+
+|    9 | Arun |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+------+------+--------+-----------+----------------+---------------------+-----------+
+1 row in set (0.01 sec)
+
+
+Q7. Find doctors having 4 or 4+ YOE-
+Ans. mysql> select * from Doctor where years_of_experience > 3;
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city      | specialization | years_of_experience | salary    |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune      | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune      | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune      | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune      | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune      | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune      | Ped            |                   4 | 890000.00 |
+|    9 | Arun    |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+9 rows in set (0.00 sec)
+
+
+Q8. Increase salary of doctors by 1000 who are having more than 5 YOE- 
+Ans. mysql> update Doctor set salary = salary + 1000 where years_of_experience > 5;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Doctor;
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city      | specialization | years_of_experience | salary    |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune      | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune      | Ort            |                  10 | 401000.00 |
+|    5 | Doctor4 |   46 | M      | Pune      | Neu            |                   8 | 101000.00 |
+|    6 | Doctor5 |   48 | M      | Pune      | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune      | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune      | Ped            |                   4 | 890000.00 |
+|    9 | Arun    |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+9 rows in set (0.00 sec)
+
+
+Q9. Find all patients as per their cities-
+Ans. mysql> select city, count(city) from Patients group by city;
++--------+-------------+
+| city   | count(city) |
++--------+-------------+
+| Pune   |           6 |
+| Mumbai |           2 |
++--------+-------------+
+2 rows in set (0.01 sec)
+
+
+Q10. 
+Ans. 

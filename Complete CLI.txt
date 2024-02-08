@@ -1,0 +1,357 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.3.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use eltp_batch1;
+Database changed
+mysql> show tables;
++-------------------------------+
+| Tables_in_eltp_batch1         |
++-------------------------------+
+| animal                        |
+| country                       |
+| department                    |
+| district                      |
+| employee                      |
+| employees                     |
+| fb_user                       |
+| hr_employees                  |
+| hr_employees_check            |
+| new_view                      |
+| northern_hemisphere_districts |
+| passport                      |
+| person                        |
+| state                         |
+| zoo                           |
+| zoo_view                      |
++-------------------------------+
+16 rows in set (0.04 sec)
+
+mysql> create table Doctor(d_id int primary key auto_increment, name varchar(255), age int, gender varchar(1), city varchar(255), specialization varchar(255), years_of_experience int, salary decimal(10,2));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>  create table Patients(p_id int primary key auto_increment, name varchar(255), age int, gender varchar(1), city varchar(255), date_of_admission date, status varchar(10), d_id int, foreign key (d_id) references Doctor(d_id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>  alter table Doctor rename column specialization = "subject";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= "subject"' at line 1
+mysql>  alter table Doctor set column = "subject" where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set column = "subject" where column = "specialization"' at line 1
+mysql>  alter table Doctor rename specialization = "subject";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= "subject"' at line 1
+mysql>  alter table Doctor rename column specialization = subject;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= subject' at line 1
+mysql>  alter table Doctor set column = "subject" where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'set column = "subject" where column = "specialization"' at line 1
+mysql>  alter table Doctor rename column = "subject" where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= "subject" where column = "specialization"' at line 1
+mysql>  alter table Doctor rename column = subject where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= subject where column = "specialization"' at line 1
+mysql>  alter table Doctor add column = subject where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= subject where column = "specialization"' at line 1
+mysql>  alter table Doctor add column "subject" where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"subject" where column = "specialization"' at line 1
+mysql>  alter table Doctor add column subject where column = "specialization";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where column = "specialization"' at line 1
+mysql>  alter table Doctor add column subject where column = specialization;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where column = specialization' at line 1
+mysql>  alter table Doctor add column subject;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql>  alter table Doctor rename specialization = subject;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= subject' at line 1
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values(
+    -> ("Doctor1", 45, "M", "Pune", "Ped", 4, 100000),
+    -> ("Doctor2", 40, "M", "Pune", "Ped", 5, 40000),
+    -> ("Doctor3", 45, "M", "Pune", "Ort", 10, 400000),
+    -> ("Doctor4", 46, "M", "Pune", "Neu", 8, 1000000),
+    -> ("Doctor5", 48, "M", "Pune", "Ped", 4, 1000),
+    -> ("Doctor6", 35, "M", "Pune", "Gyn", 4, 780000),
+    -> ("Doctor7", 55, "M", "Pune", "Ped", 4, 890000),
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 9
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values(
+    -> ("Doctor1", 45, "M", "Pune", "Ped", 4, 100000.00),
+    -> ("Doctor2", 40, "M", "Pune", "Ped", 5, 40000.00),
+    -> ("Doctor3", 45, "M", "Pune", "Ort", 10, 400000.00),
+    -> ("Doctor4", 46, "M", "Pune", "Neu", 8, 100000.00),
+    -> ("Doctor5", 48, "M", "Pune", "Ped", 4, 1000.00),
+    -> ("Doctor6", 35, "M", "Pune", "Gyn", 4, 780000.00),
+    -> ("Doctor7", 55, "M", "Pune", "Ped", 4, 890000.00),
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 9
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values(
+    -> ("Doctor1", 45, "M", "Pune", "Ped", 4, 100000.00),
+    -> ("Doctor2", 40, "M", "Pune", "Ped", 5, 40000.00),
+    -> ("Doctor3", 45, "M", "Pune", "Ort", 10, 400000.00),
+    -> ("Doctor4", 46, "M", "Pune", "Neu", 8, 100000.00),
+    -> ("Doctor5", 48, "M", "Pune", "Ped", 4, 1000.00),
+    -> ("Doctor6", 35, "M", "Pune", "Gyn", 4, 780000.00),
+    -> ("Doctor7", 55, "M", "Pune", "Ped", 4, 890000.00),
+    -> )
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 9
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values(
+    -> ("Doctor1", 45, "M", "Pune", "Ped", 4, 100000.00),
+    -> ("Doctor2", 40, "M", "Pune", "Ped", 5, 40000.00),
+    -> ("Doctor3", 45, "M", "Pune", "Ort", 10, 400000.00),
+    -> ("Doctor4", 46, "M", "Pune", "Neu", 8, 100000.00),
+    -> ("Doctor5", 48, "M", "Pune", "Ped", 4, 1000.00),
+    -> ("Doctor6", 35, "M", "Pune", "Gyn", 4, 780000.00),
+    -> ("Doctor7", 55, "M", "Pune", "Ped", 4, 890000.00)
+    -> );
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values(
+    -> "Doctor1", 45, "M", "Pune", "Ped", 4, 100000.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values
+    -> ("Doctor1", 45, "M", "Pune", "Ped", 4, 100000.00),
+    -> ("Doctor2", 40, "M", "Pune", "Ped", 5, 40000.00),
+    -> ("Doctor3", 45, "M", "Pune", "Ort", 10, 400000.00),
+    -> ("Doctor4", 46, "M", "Pune", "Neu", 8, 100000.00),
+    -> ("Doctor5", 48, "M", "Pune", "Ped", 4, 1000.00),
+    -> ("Doctor6", 35, "M", "Pune", "Gyn", 4, 780000.00),
+    -> ("Doctor7", 55, "M", "Pune", "Ped", 4, 890000.00);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from Doctor;
++------+---------+------+--------+------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city | specialization | years_of_experience | salary    |
++------+---------+------+--------+------+----------------+---------------------+-----------+
+|    1 | Doctor1 |   45 | M      | Pune | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune | Ped            |                   4 | 890000.00 |
++------+---------+------+--------+------+----------------+---------------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> truncate table Doctorl
+    -> ;
+ERROR 1146 (42S02): Table 'eltp_batch1.doctorl' doesn't exist
+mysql> truncate table Doctor;
+ERROR 1701 (42000): Cannot truncate a table referenced in a foreign key constraint (`eltp_batch1`.`patients`, CONSTRAINT `patients_ibfk_1`)
+mysql> update Doctor set name = "Doctor0" where d_id = 1;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Doctor;
++------+---------+------+--------+------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city | specialization | years_of_experience | salary    |
++------+---------+------+--------+------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune | Ped            |                   4 | 890000.00 |
++------+---------+------+--------+------+----------------+---------------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> insert into Doctor(name, age, gender, city, specialization, years_of_experience, salary) values
+    -> ("Arun", 45, "M", "Ahmedabad", "Ped", 4, 100000.00);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Patients(name, age, gender, city, date_of_admission, status) values
+    -> ("Patient0", 45, "M", "Pune", "2020-3-23", "discharged"),
+    -> ("Patient1", 45, "M", "Pune", "2021-3-23", "discharged"),
+    -> ("Patient2", 40, "M", "Pune", "2020-3-13", "discharged"),
+    -> ("Patient3", 45, "M", "Mumbai", "2020-3-2", "admitted"),
+    -> ("Patient4", 46, "M", "Pune", "2020-3-3", "discharged"),
+    -> ("Patient5", 48, "M", "Pune", "2002-5-23", "discharged"),
+    -> ("Patient6", 35, "M", "Mumbai", "2020-5-23", "admitted"),
+    -> ("Patient7", 55, "M", "Pune", "2020-6-23", "discharged");
+Query OK, 8 rows affected (0.02 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select * from Patients;
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> create table bkup_Patient select * from Patient;
+ERROR 1146 (42S02): Table 'eltp_batch1.patient' doesn't exist
+mysql> create table bkup_Patient select * from Patients;
+Query OK, 8 rows affected (0.05 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> create table bkup_Doctor select * from Doctor;
+Query OK, 9 rows affected (0.06 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> select * from bkup_Patient;
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from bkup_Doctor;
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city      | specialization | years_of_experience | salary    |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune      | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune      | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune      | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune      | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune      | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune      | Ped            |                   4 | 890000.00 |
+|    9 | Arun    |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from Patients where city = "Pune" or city = "Mumbai";
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> select * from Doctors where name like "A%" and city = "Ahmedabad";
+ERROR 1146 (42S02): Table 'eltp_batch1.doctors' doesn't exist
+mysql> select * from Doctor where name like "A%" and city = "Ahmedabad";
++------+------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name | age  | gender | city      | specialization | years_of_experience | salary    |
++------+------+------+--------+-----------+----------------+---------------------+-----------+
+|    9 | Arun |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+------+------+--------+-----------+----------------+---------------------+-----------+
+1 row in set (0.01 sec)
+
+mysql> select * from Doctor where years_of_experience > 3;
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city      | specialization | years_of_experience | salary    |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune      | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune      | Ort            |                  10 | 400000.00 |
+|    5 | Doctor4 |   46 | M      | Pune      | Neu            |                   8 | 100000.00 |
+|    6 | Doctor5 |   48 | M      | Pune      | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune      | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune      | Ped            |                   4 | 890000.00 |
+|    9 | Arun    |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> update Doctor set salary = salary + 1000 where years_of_experience > 5;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from Doctor;
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+| d_id | name    | age  | gender | city      | specialization | years_of_experience | salary    |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+|    1 | Doctor0 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    2 | Doctor1 |   45 | M      | Pune      | Ped            |                   4 | 100000.00 |
+|    3 | Doctor2 |   40 | M      | Pune      | Ped            |                   5 |  40000.00 |
+|    4 | Doctor3 |   45 | M      | Pune      | Ort            |                  10 | 401000.00 |
+|    5 | Doctor4 |   46 | M      | Pune      | Neu            |                   8 | 101000.00 |
+|    6 | Doctor5 |   48 | M      | Pune      | Ped            |                   4 |   1000.00 |
+|    7 | Doctor6 |   35 | M      | Pune      | Gyn            |                   4 | 780000.00 |
+|    8 | Doctor7 |   55 | M      | Pune      | Ped            |                   4 | 890000.00 |
+|    9 | Arun    |   45 | M      | Ahmedabad | Ped            |                   4 | 100000.00 |
++------+---------+------+--------+-----------+----------------+---------------------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> select city, count(city) from Patients group by city;
++--------+-------------+
+| city   | count(city) |
++--------+-------------+
+| Pune   |           6 |
+| Mumbai |           2 |
++--------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from Patients;
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql> drop table Patients;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table Patients(p_id int primary key auto_increment, name varchar(255), age int, gender varchar(1), city varchar(255), date_of_admission date, status varchar(10), d_id int, foreign key(d_id) references Doctor(d_id));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into Patients(name, age, gender, city, date_of_admission, status) values
+    -> ("Patient0", 45, "M", "Pune", "2020-3-23", "discharged"),
+    -> ("Patient1", 45, "M", "Pune", "2021-3-23", "discharged"),
+    -> ("Patient2", 40, "M", "Pune", "2020-3-13", "discharged"),
+    -> ("Patient3", 45, "M", "Mumbai", "2020-3-2", "admitted"),
+    -> ("Patient4", 46, "M", "Pune", "2020-3-3", "discharged"),
+    -> ("Patient5", 48, "M", "Pune", "2002-5-23", "discharged"),
+    -> ("Patient6", 35, "M", "Mumbai", "2020-5-23", "admitted"),
+    -> ("Patient7", 55, "M", "Pune", "2020-6-23", "discharged")
+    -> ;
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select * from Patients;
++------+----------+------+--------+--------+-------------------+------------+------+
+| p_id | name     | age  | gender | city   | date_of_admission | status     | d_id |
++------+----------+------+--------+--------+-------------------+------------+------+
+|    1 | Patient0 |   45 | M      | Pune   | 2020-03-23        | discharged | NULL |
+|    2 | Patient1 |   45 | M      | Pune   | 2021-03-23        | discharged | NULL |
+|    3 | Patient2 |   40 | M      | Pune   | 2020-03-13        | discharged | NULL |
+|    4 | Patient3 |   45 | M      | Mumbai | 2020-03-02        | admitted   | NULL |
+|    5 | Patient4 |   46 | M      | Pune   | 2020-03-03        | discharged | NULL |
+|    6 | Patient5 |   48 | M      | Pune   | 2002-05-23        | discharged | NULL |
+|    7 | Patient6 |   35 | M      | Mumbai | 2020-05-23        | admitted   | NULL |
+|    8 | Patient7 |   55 | M      | Pune   | 2020-06-23        | discharged | NULL |
++------+----------+------+--------+--------+-------------------+------------+------+
+8 rows in set (0.00 sec)
+
+mysql>
